@@ -50,6 +50,10 @@ class Connection(threading.Thread):
     self._send(protocol.text_message(session = [destination],
                                      message = message))
 
+  def channel_message(self, message, destination=None):
+    self._send(protocol.text_message(channels = [destination],
+                                     message = message))
+
   def ask_texture_for_user(self, session_id):
     self._send(protocol.request_blob([sessions_id], None, None))
   def ask_comment_for_user(self, session_id):

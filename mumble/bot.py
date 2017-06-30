@@ -62,6 +62,7 @@ class BotState(object):
     self.udp_stats = (msg.udp_packets, msg.udp_ping_avg, msg.udp_ping_var)
 
   def on_reject(self, msg):
+    LOGGER.error("Bot rejected. Message: %s" % msg)
     self.rejected = True
     self.reject_type = msg.type
     self.reject_reason = msg.reason
@@ -156,8 +157,13 @@ class Bot(object):
   def join(self):
     self.connection.join()
 
-  def send_message(self, user, message):
-    self.connection.send_message(destination = user.session, message = message)
+  def send_message(self, message, user = None, channel = None):
+    if user != None:
+      self.connection.send_message(destination = user.session, message = message)
+    elif channel != None:
+      self.connection.channel_message(destination = channel.id, message = message)
+    else:
+      LOGGER.warning("No message target specified.")
 
   def stop(self):
     self.connection.stop()
