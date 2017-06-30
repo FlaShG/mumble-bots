@@ -115,16 +115,7 @@ class Connection(threading.Thread):
   # Call a delegate method named 'attr' for all messages in the
   # voice packet.
   def _call_voice(self, attr, session, sequence, msg):
-    pos = 0
-    if len(msg) < 1:
-      return
-    while ord(msg[pos]) & 0b10000000 != 0:
-      sz = ord(msg[pos]) & 0b01111111
-      self._call(attr, session, sequence, msg[pos:pos + sz])
-      pos += sz
-    else:
-      sz = ord(msg[pos])
-      self._call(attr, session, sequence, msg[pos:pos + sz])
+    pass
 
   ##############################################################################
   # The different message handlers. These delegate for handling it.
