@@ -150,6 +150,10 @@ class Bot(object):
     self.connection = None
 
   def start(self, server, nickname):
+    if server.certfile==None and self.certfile!=None:
+      server.certfile=self.certfile
+    if server.keyfile==None and self.keyfile!=None:
+      server.keyfile=self.keyfile
     if self.connection:
       LOGGER.warning("Starting the bot twice. Will disconnect old bot.")
       self.stop()

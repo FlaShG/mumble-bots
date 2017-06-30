@@ -10,7 +10,7 @@ import requests
 
 class HTTPBot(mumble.Bot):
     def __init__(self, script_url,certfile=None,keyfile=None):
-        mumble.Bot.__init__(self,certfile,keyfile)
+        mumble.Bot.__init__(self,botcertfile=certfile,botkeyfile=keyfile)
         self.script_url = script_url
 
     def stopping(self):
