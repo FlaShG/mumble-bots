@@ -39,7 +39,7 @@ class Context(object):
     print "Ping: %d msec" % ping
 
   def connect(self, hostport, nickname):
-    server = mumble.Server(*hostport.split(':'))
+    server = mumble.Server(*hostport.split(':'), certfile=self.__bot.certfile,keyfile=self.__bot.keyfile)
     print "Connecting to %s..." % server
     self.__bot.start(server, nickname)
 
@@ -124,8 +124,10 @@ class Complete(object):
 class InteractiveBot(mumble.Bot):
   def __init__(self, filename = '<console>',
                      histfile = os.path.expanduser("~/.mumblebot_history"),
-                     rcfile = os.path.expanduser("~/.mumblebot_rc")):
-    mumble.Bot.__init__(self, "HansL InteractiveBot v0.1")
+                     rcfile = os.path.expanduser("~/.mumblebot_rc"),
+                     botcertfile=None,
+                     botkeyfile=None):
+    mumble.Bot.__init__(self, "HansL InteractiveBot v0.1",botcertfile,botkeyfile)
     self.context = Context(self)
     self.prompt = "> "
     self.init_history(histfile)

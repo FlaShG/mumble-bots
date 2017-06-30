@@ -142,9 +142,11 @@ class BotState(object):
 # keep the bot state. It also builds the BotState for the connection for you,
 # so you don't have to (ain't that nice).
 class Bot(object):
-  def __init__(self, version = "HansBot"):
+  def __init__(self, version = "HansBot", botcertfile=None, botkeyfile=None):
     self.version = version
     self.state = BotState(self)
+    self.certfile=botcertfile
+    self.keyfile=botkeyfile
     self.connection = None
 
   def start(self, server, nickname):

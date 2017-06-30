@@ -11,15 +11,17 @@ LOGGER = logging.getLogger(__name__)
 # Keep a server's information in a nice tidy place.
 # This is hardly more than that.
 class Server(object):
-  def __init__(self, hostname = '', port = 64738):
+  def __init__(self, hostname = '', port = 64738,certfile=None,keyfile=None):
     self.hostname = hostname
     self.port = int(port)
+    self.certfile=certfile
+    self.keyfile=keyfile
 
   def __str__(self):
     return "%s:%d" % (self.hostname, self.port)
 
   def connect(self):
-    sc = ssl.wrap_socket(socket.socket(type = socket.SOCK_STREAM),
+    sc = ssl.wrap_socket(socket.socket(type = socket.SOCK_STREAM), certfile=self.certfile, keyfile=self.keyfile,
                                        ssl_version = ssl.PROTOCOL_TLSv1)
     sc.setsockopt(socket.SOL_TCP, socket.TCP_NODELAY, 1)
     try:
