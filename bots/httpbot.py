@@ -9,8 +9,8 @@ import requests
 
 
 class HTTPBot(mumble.Bot):
-    def __init__(self, script_url):
-        mumble.Bot.__init__(self)
+    def __init__(self, script_url,certfile=None,keyfile=None):
+        mumble.Bot.__init__(self,certfile,keyfile)
         self.script_url = script_url
 
     def stopping(self):
@@ -42,10 +42,15 @@ class HTTPBot(mumble.Bot):
 if __name__ == '__main__':
     server = sys.argv[1]
     script = sys.argv[2]
+    certfile = None
+    keyfile = None
+    if len(sys.argv)>4:
+        certfile = sys.argv[3]
+        keyfile = sys.argv[4]
     r1 = requests.get('http://' + script)
     script_data = r1.json()
 
     # Start the bot
-    bot = HTTPBot(script)
+    bot = HTTPBot(script,certfile,keyfile)
     bot.start(mumble.Server(server), script_data["name"])
     bot.join() # This will wait until the bot is kicked or leave.
